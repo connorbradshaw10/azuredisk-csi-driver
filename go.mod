@@ -152,6 +152,7 @@ require (
 )
 
 replace (
+	github.com/Azure/azure-sdk-for-go => github.com/connorbradshaw10/azure-sdk-for-go v0.0.0-20220623222326-604230007bde
 	github.com/niemeyer/pretty => github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e
 	github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.11.1
 	go.etcd.io/etcd => go.etcd.io/etcd v0.0.0-20200410171415-59f5fb25a533
@@ -184,6 +185,5 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.24.0-alpha.4
 	k8s.io/sample-cli-plugin => k8s.io/sample-cli-plugin v0.24.0-alpha.4
 	k8s.io/sample-controller => k8s.io/sample-controller v0.24.0-alpha.4
-
-	sigs.k8s.io/cloud-provider-azure => github.com/edreed/cloud-provider-azure v0.0.0-20220518232828-1cc45d517f2c
+	sigs.k8s.io/cloud-provider-azure => github.com/connorbradshaw10/cloud-provider-azure v0.0.0-20220623223525-f9b435d29e4f
 )

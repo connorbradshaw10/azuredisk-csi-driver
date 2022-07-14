@@ -98,6 +98,7 @@ type ManagedDiskParameters struct {
 	DiskName                string
 	EnableAsyncAttach       *bool
 	EnableBursting          *bool
+	AllowUnalignedAttach    *bool
 	FsType                  string
 	Incremental             bool
 	Location                string
@@ -383,6 +384,10 @@ func ParseDiskParameters(parameters map[string]string) (ManagedDiskParameters, e
 		case consts.EnableBurstingField:
 			if strings.EqualFold(v, consts.TrueValue) {
 				diskParams.EnableBursting = to.BoolPtr(true)
+			}
+		case consts.AllowUnalignedAttachField:
+			if strings.EqualFold(v, consts.TrueValue) {
+				diskParams.AllowUnalignedAttach = to.BoolPtr(true)
 			}
 		case consts.UserAgentField:
 			diskParams.UserAgent = v

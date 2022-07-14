@@ -42,6 +42,7 @@ const (
 	DiskMBPSReadWriteField         = "diskmbpsreadwrite"
 	DiskNameField                  = "diskname"
 	EnableBurstingField            = "enablebursting"
+	AllowUnalignedAttachField      = "allowunalignedattach"
 	ErrDiskNotFound                = "not found"
 	FsTypeField                    = "fstype"
 	IncrementalField               = "incremental"

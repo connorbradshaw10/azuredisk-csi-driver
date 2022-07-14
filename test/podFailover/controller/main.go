@@ -55,6 +55,7 @@ const (
 var (
 	driverVersion          = flag.String("driver-version", "v2", "Specify whether the azuredisk csi driver being tested is v1 or v2")
 	maxShares              = flag.Int("maxshares", 3, "Specify the maxshares value for the storage class")
+	allowUnalignedAttach   = flag.Bool("allowunalignedattach", false, "Specify if storage class should allow unaligned attaches")
 	duration               = flag.Int("duration", 60, "Duration for which the test should run in minutes")
 	workloadImage          = flag.String("workload-image", "nearora4/workloadpod:latest", "Image of the workload pod that will be deployed by the controller")
 	podCount               = flag.Int("pod-count", 1, "The number of pods that should be created for a deployment")
@@ -89,7 +90,7 @@ func main() {
 	if deleteNamespace {
 		defer deleteTestNamespace(ctx, clientset)
 	}
-	scName, err := createStorageClass(ctx, clientset, *maxShares)
+	scName, err := createStorageClass(ctx, clientset, *maxShares, *allowUnalignedAttach)
 	if err != nil {
 		klog.Errorf("Error occurred while creating storageClass: %v", err)
 		return
@@ -210,7 +211,7 @@ func deleteTestNamespace(ctx context.Context, clientset *kubernetes.Clientset) {
 
 }
 
-func createStorageClass(ctx context.Context, clientset *kubernetes.Clientset, maxShares int) (string, error) {
+func createStorageClass(ctx context.Context, clientset *kubernetes.Clientset, maxShares int, allowUnalignedAttach bool) (string, error) {
 
 	allowVolumeExpansion := true
 	reclaimPolicy := v1.PersistentVolumeReclaimDelete
@@ -219,7 +220,7 @@ func createStorageClass(ctx context.Context, clientset *kubernetes.Clientset, ma
 			GenerateName: "pod-failover-sc-",
 		},
 		Provisioner:          "disk.csi.azure.com",
-		Parameters:           map[string]string{consts.SkuNameField: "Premium_LRS", "maxShares": strconv.Itoa(maxShares), "cachingMode": "None"},
+		Parameters:           map[string]string{consts.SkuNameField: "Premium_LRS", "maxShares": strconv.Itoa(maxShares), "allowUnalignedAttach": strconv.FormatBool(allowUnalignedAttach), "cachingMode": "None"},
 		ReclaimPolicy:        &reclaimPolicy,
 		AllowVolumeExpansion: &allowVolumeExpansion,
 	}
